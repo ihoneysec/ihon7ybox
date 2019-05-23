@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<!--1.这里使用load加载静态文件-->
+{% load static %}
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>开始使用layui</title>
+    <!--  <link rel="stylesheet" href="t00ls/css/layui.css">-->
+    <!--  2.我们不用上面这一行默认的路径，而修改成调用当前app的static目录下的静态文件-->
+    <!--  3.前面我们 {% load static %} 表示加载静态文件，然后再 {% static 't00ls/css/layui.css' %}来调用静态文件-->
+    <link rel="stylesheet" href="{% static 't00ls/css/layui.css' %}">
+</head>
+<body>
+<!--<script src="t00ls/layui.js"></script>-->
+<!-- 4.这里也是一样调用 t00ls 这个app static目录下的layui.js文件-->
+<script src="{% static 't00ls/layui.js' %}"></script>
+<script>
+//一般直接写在一个js文件中
+layui.use(['layer', 'form'], function(){
+  var layer = layui.layer
+  ,form = layui.form;
+
+  layer.msg('Hello World');
+});
+</script>
+
+
+<!-- 你的HTML代码 -->
+
+</body>
+</html>

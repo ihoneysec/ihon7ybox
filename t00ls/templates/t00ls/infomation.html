@@ -1,0 +1,100 @@
+{% load static %}
+<li class="layui-nav-item" style="height: 0px; text-align: center"></li>
+<div class="layui-tab layui-tab-brief" lay-filter="user">
+    <blockquote class="layui-elem-quote layui-text">
+        综合查询 解析IP / CDN/WAF / 原始响应头 / 旁站列表
+    </blockquote>
+    <fieldset class="layui-elem-field layui-field-title" style="margin-top: 10px;">
+        <legend>综合查询</legend>
+    </fieldset>
+
+    <form class="layui-form" action="" method="post">
+        <div class="layui-form-item">
+            <div class="layui-inline">
+                <label class="layui-form-label">域名</label>
+                <div class="layui-input-inline" style="panding">
+                    {% csrf_token %}
+
+                    <input type="text" name="domain" required lay-verify="domain" autocomplete="off"
+                           placeholder="http://www.t00ls.net" class="layui-input" value="{{ result.rawdomain }}">
+
+                </div>
+                <button class="layui-btn">查询</button>
+            </div>
+        </div>
+    </form>
+    {% if result %}
+    <fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
+        <legend>网站信息</legend>
+    </fieldset>
+
+    <table class="layui-table">
+        <colgroup>
+            <col width="150">
+            <col width="200">
+            <col>
+        </colgroup>
+        <thead>
+        <tr>
+            <th>Hostname</th>
+            <th>Alias</th>
+            <th>IP地址</th>
+            <th>旁站信息</th>
+            <th>CDN/WAF</th>
+        </tr>
+        </thead>
+        <tbody>
+
+        <tr>
+            <td>{{ result.parse_ip.dhostname }}</td>
+            <td>
+                {% for alias in result.parse_ip.daliaslist %}
+                {{ alias }} <br>
+                {% endfor %}
+            </td>
+            <td>
+                {% for ipaddr in result.parse_ip.dipaddrlist %}
+                {{ ipaddr }} <br>
+                {% endfor %}
+            </td>
+            <td>
+                {{ result.pz.ipaddr }} <br>
+                {{ result.pz.city }} <br>
+                {{ result.pz.pz_number }} <br>
+            </td>
+            <td>
+                {% for cdnwaf in result.cdn_waf %}
+                {{ cdnwaf }} <br>
+                {% endfor %}
+            </td>
+        </tr>
+
+        </tbody>
+    </table>
+    <div style="padding: 20px; background-color: #F2F2F2;">
+        <div class="layui-row layui-col-space15">
+
+            <div class="layui-col-md6">
+                <div class="layui-card">
+                    <div class="layui-card-header">旁站列表</div>
+                    <div class="layui-card-body">
+                        {% for pzname in result.pz.pz_domains %}
+                        {{ pzname }} <br>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+            <div class="layui-col-md6">
+                <div class="layui-card">
+                    <div class="layui-card-header">原始响应头</div>
+                    <div class="layui-card-body">
+                        {% for line in result.raw_response %}
+                        {{ line }} <br>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+</div>

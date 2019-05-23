@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+{% load static %}
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>ihon7ybox</title>
+    <link rel="stylesheet" href="{% static 't00ls/css/layui.css' %}">
+    <script src="{% static 't00ls/layui.js' %}"></script>
+    <script>
+    //JavaScript代码区域
+    layui.use('element', function(){
+      var element = layui.element;
+
+    });
+
+    </script>
+</head>
+<body class="layui-layout-body">
+<div class="layui-layout layui-layout-admin">
+    {% include 't00ls/include/menu.html'%}
+    {% include 't00ls/include/left.html'%}
+    <div class="layui-body layui-tab-content site-demo site-demo-body">
+        <!-- 内容主体区域 -->
+        {% include 't00ls/infomation.html'%}
+    </div>
+
+    <div class="layui-footer">
+        <!-- 底部固定区域 -->
+        © ihon7ysec - 2019.05.20
+    </div>
+</div>
+
+</body>
+</html>
