@@ -2,7 +2,7 @@ from django.urls import path
 from . import views
 from django.views.generic.base import RedirectView
 
-app_name = 't00ls'
+
 urlpatterns = [
     path('', views.integratedquery, name='integratedquery'),
     path('index/', views.index, name='index'),
