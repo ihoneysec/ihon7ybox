@@ -4,7 +4,7 @@
 
 ### 截图仅做演示,功能尚未完成
 
-![查询结果截图](https://github.com/ihoneysec/ihon7ybox/tree/master/t00ls/static/t00ls/img/052401.png)
+![查询结果截图](https://raw.githubusercontent.com/ihoneysec/ihon7ybox/master/t00ls/static/t00ls/img/052401.png)
 
 
 ### TODO
