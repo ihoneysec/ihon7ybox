@@ -19,6 +19,8 @@ def get_cdn_waf(rawdomain):
     """
     u_list = ['',
               'robots.txt/.php',
+              'robots.txt~',     # sofedog
+              'robots.txt.bak',  # yunsuo
               'wdocnbuqefhidc132fwqcs.mdb',
               'wdocnbuqefhidc132fwqcs.sql',
               'wdocnbuqefhidc132fwqcs_not_found_test',
