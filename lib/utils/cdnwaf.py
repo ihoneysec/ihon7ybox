@@ -81,6 +81,7 @@ def get_cdn_waf(rawdomain):
                 'retval = re.search(r"zhuji\.360\.cn", headers_get, re.I)',
                 'retval = re.search(r"X-Safe-Firewall", headers_get, re.I)',
                 'retval = re.search(r"wangzhan\.360\.cn", headers_get, re.I)',
+                'retval = re.search(r"wangzhan\.qianxin\.com", headers_get, re.I)',
                 'retval = re.search(r"X-Powered-By-WZWS", headers_get, re.I)',
                 'retval = re.search(r"X-Powered-By-360wzb", headers_get, re.I)',
                 'retval = re.search(r"WZWS-RAY", headers_get, re.I)',
