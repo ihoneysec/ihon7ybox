@@ -18,13 +18,13 @@ def get_cdn_waf(rawdomain):
     /9d4731bc16414/yunsee_best_recognizer.jpg
     """
     u_list = ['',
-              'robots.txt/.php',
+              'wdocnbuqefhidc132fwqcs_not_found_test',
+              '9d47414/wdohidqcs_best_recognizer.jpg',
               'robots.txt~',     # sofedog
               'robots.txt.bak',  # yunsuo
               'wdocnbuqefhidc132fwqcs.mdb',
               'wdocnbuqefhidc132fwqcs.sql',
-              'wdocnbuqefhidc132fwqcs_not_found_test',
-              '9d47414/wdohidqcs_best_recognizer.jpg',
+              'robots.txt/.php',
               # 'user/City_ajax.aspx?CityId=1\' union all select UserNum,UserNum from dbo.fs_sys_User where UserName=\'admin'
               # 明显的注入请求会触发阿里云防火墙服务器屏蔽向外80端口的访问
               ]
@@ -43,14 +43,16 @@ def get_cdn_waf(rawdomain):
                 r = s.get(url, headers=HEADERS, timeout=TIMEOUT, verify=VERIFY)
                 page_get = str(r.content)
                 headers_get = str(r.headers)
+                # print(headers_get)
                 break
             except Exception as e:
                 print(e)
                 try_cnt += 1
                 if try_cnt >= RETRY_CNT:
-                    return ['未检测到CDN或WAF']
+                    break
+                    # return ['未检测到CDN或WAF']
 
-
+        print('checking...')
         """
         Xampps_Request: Server: D=44676 t=1558071443078185 l=-1.00/-1.00/-1.00 b=2 i=97
         Xampps_Info: Xampps Tuesday(104979058) Apache PHP MySql FileZilla
@@ -70,8 +72,9 @@ def get_cdn_waf(rawdomain):
                 'retval = re.search(r"//www\.bt\.cn/stop\.png", page_get, re.I)',
                 'retval = re.search(r".title{background: #20a53a;color: #fff;font-size: 16px;height: 40px;line-height: 40px;padding-left: 20px;}", page_get, re.I)'
             ],
+            # www.cdedu.cn
             # www.hbggzy.cn CNAME 4eb7b2bcf8ec4610.360cloudwaf.com
-            '主机360': [
+            '主机360/奇安信waf': [
                 'retval = re.search(r"360wzws", headers_get, re.I)',
                 'retval = re.search(r"X-Powered-By-ANYU", headers_get, re.I)',
                 'retval = re.search(r"anyu.360.net", headers_get, re.I)',
@@ -82,6 +85,8 @@ def get_cdn_waf(rawdomain):
                 'retval = re.search(r"X-Powered-By-360wzb", headers_get, re.I)',
                 'retval = re.search(r"WZWS-RAY", headers_get, re.I)',
                 'retval = re.search(r"/wzws-waf-cgi/", page_get, re.I)',
+                'retval = re.search(r"anyu\.qianxin\.com", headers_get, re.I)',
+                'retval = re.search(r"qianxin-waf", headers_get, re.I)',
             ],
             '上海云盾CDN': [
                 'retval = re.search(r"YUNDUN", headers_get,re.I)',
@@ -352,8 +357,8 @@ def get_cdn_waf(rawdomain):
                     global retval
                     exec(x, globals())
                     if retval:
-                        # print(x)
                         if k not in wafcdnlist:
+                            print(k)
                             wafcdnlist.append(k)
                         continue
                 except Exception as e:
@@ -364,8 +369,9 @@ def get_cdn_waf(rawdomain):
 
 
 if __name__ == '__main__':
-    print(get_cdn_waf('http://www.xyaz.cn/'))
-    print(get_cdn_waf('http://www.legaldaily.com.cn/'))
+    print(get_cdn_waf('http://www.cdedu.cn/'))
+    # print(get_cdn_waf('http://www.xyaz.cn/'))
+    # print(get_cdn_waf('http://www.legaldaily.com.cn/'))
     # print(get_cdn_waf('http://www.yundun.com/'))
     # print(get_cdn_waf('http://www.sjzpfb120.com/'))
     # print(get_cdn_waf('http://www.51g3.org/'))
