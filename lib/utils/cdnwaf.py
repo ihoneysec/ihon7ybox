@@ -65,7 +65,8 @@ def get_cdn_waf(rawdomain):
             '阿里云CDN': [
                 'retval = re.search(r"aliyungf_/", headers_get, re.I)',
                 'retval = re.search(r"kunlun[\d]?\.cn", headers_get, re.I)',
-                'retval = re.search(r"cache[\d]{1,2}\.", headers_get, re.I)'
+                'retval = re.search(r"cache[\d]{1,2}\.", headers_get, re.I)',
+                'retval = re.search(r"Ali-Swift-Global-Savetime", headers_get, re.I)',
             ],
             '宝塔': [
                 'retval = re.search(r"\www.bt\.cn", page_get, re.I)',
@@ -114,6 +115,13 @@ def get_cdn_waf(rawdomain):
             'D盾': [
                 'retval = re.search(r"_d_id", headers_get, re.I)',
                 'retval = re.search(r"_D_SID", headers_get, re.I)'
+            ],
+            # www.shaipu.com
+            # Set-Cookie: sdwaf-test-item=363c185603560307010007050053500c035501025c5000510f515d54560000; path=/; HttpOnly
+            # X-Powered-By: SDWAF
+            'sdwaf': [
+                'retval = re.search(r"SDWAF ", headers_get, re.I)',
+                'retval = re.search(r"sdwaf-test-item", headers_get, re.I)'
             ],
             '腾讯云WAF': [
                 'retval = re.search(r"waf\.tencent-cloud.com", page_get, re.I)',
@@ -370,7 +378,8 @@ def get_cdn_waf(rawdomain):
 
 
 if __name__ == '__main__':
-    print(get_cdn_waf('http://www.cdedu.cn/'))
+    print(get_cdn_waf('http://www.shaipu.com/'))
+    # print(get_cdn_waf('http://www.cdedu.cn/'))
     # print(get_cdn_waf('http://www.xyaz.cn/'))
     # print(get_cdn_waf('http://www.legaldaily.com.cn/'))
     # print(get_cdn_waf('http://www.yundun.com/'))
