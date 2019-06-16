@@ -34,7 +34,7 @@ def get_cdn_waf(rawdomain):
     # print('checking...')
     for u in u_list:
         url = addslashless(rawdomain) + u
-        print(url)
+        # print(url)
         try_cnt = 0
         while True:
             try:

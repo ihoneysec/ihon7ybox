@@ -46,11 +46,11 @@ def get_all_info(rawdomain, searchdomain):
 
         print(e)
 
-    try:
-        result['pz'] = get_pzlist(searchdomain)
-        # print(result['pz'])
-    except Exception as e:
-        print(e)
+    #try:
+    #    result['pz'] = get_pzlist(searchdomain)
+    #    # print(result['pz'])
+    #except Exception as e:
+    #    print(e)
 
     if result:
         print(result)
