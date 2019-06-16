@@ -29,29 +29,29 @@ def get_all_info(rawdomain, searchdomain):
 
     try:
         result['parse_ip'] = get_ip(searchdomain)
-        print(result['parse_ip'])
+        # print(result['parse_ip'])
     except Exception as e:
         print(e)
 
     try:
         result['raw_response'] = get_raw_response(rawdomain)
-        print(result['raw_response'])
+        # print(result['raw_response'])
     except Exception as e:
         print(e)
 
     try:
         result['cdn_waf'] = get_cdn_waf(rawdomain)
-        print(result['cdn_waf'])
+        # print(result['cdn_waf'])
     except Exception as e:
 
         print(e)
 
     try:
         result['pz'] = get_pzlist(searchdomain)
-        print(result['pz'])
+        # print(result['pz'])
     except Exception as e:
         print(e)
 
     if result:
-        print(result['cdn_waf'])
+        print(result)
         return result
