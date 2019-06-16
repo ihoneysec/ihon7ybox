@@ -13,7 +13,6 @@ def index(request):
 
 def integratedquery(request):
     request.encoding = 'utf-8'
-    print(request.POST)
     rawdomain = request.POST.get('domain')
     if rawdomain:
         rawdomain = rawdomain.strip()

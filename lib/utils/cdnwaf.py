@@ -31,6 +31,7 @@ def get_cdn_waf(rawdomain):
 
     wafcdnlist = []
 
+    print('checking...')
     for u in u_list:
         url = addslashless(rawdomain) + u
         print(url)
@@ -52,7 +53,6 @@ def get_cdn_waf(rawdomain):
                     break
                     # return ['未检测到CDN或WAF']
 
-        print('checking...')
         if page_get or headers_get:
             pass
         else:
@@ -362,7 +362,6 @@ def get_cdn_waf(rawdomain):
                 'retval = re.search(r"\AAL[_-]?(SESS|LB)=",headers_get, re.I)'
             ],
         }
-        # waf/cdn
 
         for k, v in waf_dic.items():  # python2 waf_dic.iteritems()
             for x in v:
