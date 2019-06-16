@@ -53,6 +53,10 @@ def get_cdn_waf(rawdomain):
                     # return ['未检测到CDN或WAF']
 
         print('checking...')
+        if page_get or headers_get:
+            pass
+        else:
+            continue
         """
         Xampps_Request: Server: D=44676 t=1558071443078185 l=-1.00/-1.00/-1.00 b=2 i=97
         Xampps_Info: Xampps Tuesday(104979058) Apache PHP MySql FileZilla
@@ -367,7 +371,7 @@ def get_cdn_waf(rawdomain):
                     exec(x, globals())
                     if retval:
                         if k not in wafcdnlist:
-                            print(k)
+                            # print(k)
                             wafcdnlist.append(k)
                         continue
                 except Exception as e:
