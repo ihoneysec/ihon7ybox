@@ -31,7 +31,7 @@ def get_cdn_waf(rawdomain):
 
     wafcdnlist = []
 
-    print('checking...')
+    # print('checking...')
     for u in u_list:
         url = addslashless(rawdomain) + u
         print(url)
@@ -123,7 +123,7 @@ def get_cdn_waf(rawdomain):
             # www.shaipu.com
             # Set-Cookie: sdwaf-test-item=363c185603560307010007050053500c035501025c5000510f515d54560000; path=/; HttpOnly
             # X-Powered-By: SDWAF
-            'sdwaf': [
+            'SDWAF': [
                 'retval = re.search(r"SDWAF ", headers_get, re.I)',
                 'retval = re.search(r"sdwaf-test-item", headers_get, re.I)'
             ],
