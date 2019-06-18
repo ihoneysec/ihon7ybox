@@ -21,7 +21,7 @@ def getIP(searchdomain):
             if len(daliaslist) >= 1:
                 return {'dhostname': dhostname, 'daliaslist': daliaslist, 'dipaddrlist': ipInfo}
             else:
-                return {'dhostname': dhostname, 'daliaslist': ['None'], 'dipaddrlist': dipaddrlist}
+                return {'dhostname': dhostname, 'daliaslist': ['None'], 'dipaddrlist': ipInfo}
     except Exception as e:
         print(e)
         return '解析IP失败'
