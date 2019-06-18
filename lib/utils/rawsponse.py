@@ -22,7 +22,7 @@ def getRawResponse(searchdomain):
             print(e)
             try_cnt += 1
             if try_cnt >= RETRY_CNT:
-                return
+                return ['源站响应头获取异常']
 
 
 if __name__ == '__main__':
