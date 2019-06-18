@@ -1,7 +1,7 @@
 from django.shortcuts import render, HttpResponse, redirect
 from urllib.parse import urlparse
 from django.views.decorators.csrf import csrf_exempt
-from lib.utils.parseip import get_ip
+from lib.utils.parseip import getIP
 from lib.utils.allinfo import get_all_info
 from lib.common.urlhandler import slashlessURL
 

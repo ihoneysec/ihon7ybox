@@ -43,7 +43,6 @@ def get_all_info(rawdomain, searchdomain):
         result['cdn_waf'] = getCdnWAF(rawdomain)
         # print(result['cdn_waf'])
     except Exception as e:
-
         print(e)
 
     #try:
