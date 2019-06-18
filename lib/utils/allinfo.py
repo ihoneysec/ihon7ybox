@@ -1,9 +1,9 @@
 # coding:utf-8
 import requests
-from lib.utils.rawsponse import get_raw_response
-from lib.utils.parseip import get_ip
-from lib.utils.cdnwaf import get_cdn_waf
-from lib.utils.pangzhan import get_pzlist
+from lib.utils.rawsponse import getRawResponse
+from lib.utils.parseip import getIP
+from lib.utils.cdnwaf import getCdnWAF
+from lib.utils.pangzhan import getPzList
 
 requests.packages.urllib3.disable_warnings()
 
@@ -28,19 +28,19 @@ def get_all_info(rawdomain, searchdomain):
     }
 
     try:
-        result['parse_ip'] = get_ip(searchdomain)
+        result['parse_ip'] = getIP(searchdomain)
         # print(result['parse_ip'])
     except Exception as e:
         print(e)
 
     try:
-        result['raw_response'] = get_raw_response(rawdomain)
+        result['raw_response'] = getRawResponse(rawdomain)
         # print(result['raw_response'])
     except Exception as e:
         print(e)
 
     try:
-        result['cdn_waf'] = get_cdn_waf(rawdomain)
+        result['cdn_waf'] = getCdnWAF(rawdomain)
         # print(result['cdn_waf'])
     except Exception as e:
 

@@ -9,7 +9,7 @@ HEADERS = {
     'User-Agent': 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/68.0.3440.106 Safari/537.36', }
 
 
-def get_cdn_waf(rawdomain):
+def getCdnWAF(rawdomain):
     """
     模仿云悉部分识别方式
     /yunsee_detect.mdb
@@ -381,7 +381,7 @@ def get_cdn_waf(rawdomain):
 
 
 if __name__ == '__main__':
-    print(get_cdn_waf('http://www.shaipu.com/'))
+    print(getCdnWAF('http://www.shaipu.com/'))
     # print(get_cdn_waf('http://www.cdedu.cn/'))
     # print(get_cdn_waf('http://www.xyaz.cn/'))
     # print(get_cdn_waf('http://www.legaldaily.com.cn/'))

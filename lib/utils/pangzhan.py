@@ -8,7 +8,7 @@ from setting import MAXPAGE, PANGZHAN_HEADERS, VERIFY
 requests.packages.urllib3.disable_warnings()
 
 
-def get_pzlist(rawDomain):
+def getPzList(rawDomain):
     """
     :param rawDomain:
     :return: {'city': '中国广东佛山',
@@ -95,4 +95,4 @@ def get_pzlist(rawDomain):
 
 
 if __name__ == '__main__':
-    print(get_pzlist('www.xyaz.cn'))
+    print(getPzList('www.xyaz.cn'))

@@ -6,7 +6,7 @@ from lib.common.urlhandler import slashlessURL
 requests.packages.urllib3.disable_warnings()
 
 
-def get_raw_response(searchdomain):
+def getRawResponse(searchdomain):
     hack_payload_url = slashlessURL(searchdomain)
     try_cnt = 0
     resultStr = []
@@ -28,4 +28,4 @@ def get_raw_response(searchdomain):
 if __name__ == '__main__':
     # print(get_raw_response('https://www.51oz.com'))
     # print(get_raw_response('https://www.shipuxiu.com'))
-    print(get_raw_response('https://www.51oz.com'))
+    print(getRawResponse('https://www.51oz.com'))

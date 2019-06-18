@@ -1,8 +1,8 @@
 # coding:utf-8
 import socket
+from lib.utils.isp import getIpInfo
 
-
-def get_ip(searchdomain):
+def getIP(searchdomain):
     """
     返回一个三元组
     :param domain: www.tumanduo.com
@@ -10,11 +10,16 @@ def get_ip(searchdomain):
     """
     try:
         result = socket.gethostbyname_ex(searchdomain)
-        print(result)
+        # print(result)
         if result:
             dhostname, daliaslist, dipaddrlist = result
+
+            if len(dipaddrlist) == 1:
+                ipInfo = getIpInfo(dipaddrlist)
+            else:
+                ipInfo = dipaddrlist
             if len(daliaslist) >= 1:
-                return {'dhostname': dhostname, 'daliaslist': daliaslist, 'dipaddrlist': dipaddrlist}
+                return {'dhostname': dhostname, 'daliaslist': daliaslist, 'dipaddrlist': ipInfo}
             else:
                 return {'dhostname': dhostname, 'daliaslist': ['None'], 'dipaddrlist': dipaddrlist}
     except Exception as e:
@@ -23,11 +28,11 @@ def get_ip(searchdomain):
 
 
 if __name__ == '__main__':
-    print(get_ip('www.baidu.com'))
-    # print(get_ip('www.tumanduo.com'))
-    # print(get_ip('m.soudongman.com'))
-    # print(get_ip('www.jzqlz.gov.cn'))
-    # print(get_ip('www.baidu.com'))
+    print(getIP('www.baidu.com'))
+    print(getIP('www.tumanduo.com'))
+    print(getIP('m.soudongman.com'))
+    # print(getIP('www.jzqlz.gov.cn'))
+    # print(getIP('www.baidu.com'))
     # print(get_ip('www.yundun.com'))
     # print(get_ip('www.cricchina.com'))
     # print(get_ip('www.legaldaily.com.cn'))
