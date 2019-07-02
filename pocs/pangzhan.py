@@ -4,20 +4,13 @@ import time
 import chardet
 from lxml import etree
 from setting import MAXPAGE, PANGZHAN_HEADERS, VERIFY
+from lib.core.threads import RESULT_REPORT
 
 requests.packages.urllib3.disable_warnings()
 
 
-def getPzList(rawDomain):
-    """
-    :param rawDomain:
-    :return: {'city': '中国广东佛山',
-             'ipaddr': '121.9.244.82',
-              'pz_number': '81个旁站',
-              'pz_domains': ['www.qiujiahui.com', 'www.qudns.com']
-              }
-    """
-    domain = rawDomain.strip()
+def verify(arg, result_report, **kwargs):
+    domain = arg.strip()
     pz_result = {
         'city': 'None',
         'ipaddr': 'None',
@@ -35,7 +28,7 @@ def getPzList(rawDomain):
             return pz_result
 
         search_url = aizhan + domain + '/'
-        print(search_url)
+        # print(search_url)
         r = requests.get(search_url, headers=PANGZHAN_HEADERS, verify=VERIFY)
         #     /html/body/div[4]/div[2]/ul/li[4]/span
         x1 = '/html/body/div[4]/div[2]/ul/li[4]/span/text()'
@@ -59,7 +52,8 @@ def getPzList(rawDomain):
                 pz_result['ipaddr'] = ipaddr[0]
                 pz_result['pz_number'] = '共有%s个旁站' % text[0]
                 pz_result['pz_domains'] = []
-                return pz_result
+                result_report['pz'] = pz_result
+                return result_report
             pz_result['city'] = cityaddr[0]
             pz_result['ipaddr'] = ipaddr[0]
             pz_result['pz_number'] = '共有%s个旁站' % text[0]
@@ -84,15 +78,18 @@ def getPzList(rawDomain):
                         for j in text3:
                             if i not in pz_result['pz_domains']:
                                 pz_result['pz_domains'].append(j)
-            return pz_result
+            result_report['pz'] = pz_result
+            return result_report
         else:
             # pz_result['statu'] = '你查询的域名可能没有旁站哦或者解析出现异常'
-            return pz_result
+            result_report['pz'] = pz_result
+            return result_report
     except Exception as e:
         print(e)
         # pz_result['statu'] = '查询出现异常 %s' % e
-        return pz_result
+        result_report['pz'] = pz_result
+        return result_report
 
 
 if __name__ == '__main__':
-    print(getPzList('www.xyaz.cn'))
+    print(verify('www.xyaz.cn', RESULT_REPORT))

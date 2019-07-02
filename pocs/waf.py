@@ -1,40 +1,29 @@
-# -*- coding: utf-8 -*-
 import requests
 import re
 from lib.common.urlhandler import addslashless
 from setting import RETRY_CNT, TIMEOUT, VERIFY
+from lib.core.threads import RESULT_REPORT
 
 requests.packages.urllib3.disable_warnings()
 HEADERS = {
-    'User-Agent': 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/68.0.3440.106 Safari/537.36', }
+    'User-Agent': 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/68.0.3440.106 Safari/537.36',
+}
 
 
-def getCdnWAF(rawdomain):
-    """
-    模仿云悉部分识别方式
-    /yunsee_detect.mdb
-    /yunsee_detect.sql
-    /yunsee_not_found_test
-    /9d4731bc16414/yunsee_best_recognizer.jpg
-    """
+def verify(rawdomain, result_report, **kwargs):
     u_list = ['',
               'wdocnbuqefhidc132fwqcs_not_found_test',
               '9d47414/wdohidqcs_best_recognizer.jpg',
-              'robots.txt~',     # sofedog
+              'robots.txt~',  # sofedog
               'robots.txt.bak',  # yunsuo
               'wdocnbuqefhidc132fwqcs.mdb',
               'wdocnbuqefhidc132fwqcs.sql',
               'robots.txt/.php',
-              # 'user/City_ajax.aspx?CityId=1\' union all select UserNum,UserNum from dbo.fs_sys_User where UserName=\'admin'
-              # 明显的注入请求会触发阿里云防火墙服务器屏蔽向外80端口的访问
               ]
-
     wafcdnlist = []
 
-    # print('checking...')
     for u in u_list:
         url = addslashless(rawdomain) + u
-        # print(url)
         try_cnt = 0
         while True:
             try:
@@ -51,16 +40,11 @@ def getCdnWAF(rawdomain):
                 try_cnt += 1
                 if try_cnt >= RETRY_CNT:
                     break
-                    # return ['未检测到CDN或WAF']
 
         if page_get or headers_get:
             pass
         else:
             continue
-        """
-        Xampps_Request: Server: D=44676 t=1558071443078185 l=-1.00/-1.00/-1.00 b=2 i=97
-        Xampps_Info: Xampps Tuesday(104979058) Apache PHP MySql FileZilla
-        """
 
         waf_dic = {
             '阿里云WAF': [
@@ -73,12 +57,10 @@ def getCdnWAF(rawdomain):
                 'retval = re.search(r"Ali-Swift-Global-Savetime", headers_get, re.I)',
             ],
             '宝塔': [
-                'retval = re.search(r"\www.bt\.cn", page_get, re.I)',
+                'retval = re.search(r"www.bt.cn", page_get, re.I)',
                 'retval = re.search(r"//www\.bt\.cn/stop\.png", page_get, re.I)',
                 'retval = re.search(r".title{background: #20a53a;color: #fff;font-size: 16px;height: 40px;line-height: 40px;padding-left: 20px;}", page_get, re.I)'
             ],
-            # www.cdedu.cn
-            # www.hbggzy.cn CNAME 4eb7b2bcf8ec4610.360cloudwaf.com
             '主机360/奇安信waf': [
                 'retval = re.search(r"360wzws", headers_get, re.I)',
                 'retval = re.search(r"X-Powered-By-ANYU", headers_get, re.I)',
@@ -106,23 +88,17 @@ def getCdnWAF(rawdomain):
                 'retval = re.search(r"yunsuologo", page_get, re.I)',
                 'retval = re.search(r"tip1 red", page_get, re.I)',
                 'retval = re.search(r"网防G01提示:", page_get, re.I)',
-
             ],
-            # www.cheshi.com vo.aicdn.com ['www.cheshi.com','cheshi-www.b0.aicdn.com'] ['43.230.89.187']
             '又拍云CDN': [
                 'retval = re.search(r"pcw-cn-", headers_get, re.I)',
             ],
-            # www.ywnews.cn jhcloud85.cache.saaswaf.com	['www.ywnews.cn','ywnews-cn.cname.saaswaf.com']
-            # '玄武盾CDN': [
-            #     'retval = re.search(r"pcw-cn-", headers_get, re.I)',
-            # ],
+            '玄武盾CDN': [
+                'retval = re.search(r"pcw-cn-", headers_get, re.I)',
+            ],
             'D盾': [
                 'retval = re.search(r"_d_id", headers_get, re.I)',
                 'retval = re.search(r"_D_SID", headers_get, re.I)'
             ],
-            # www.shaipu.com
-            # Set-Cookie: sdwaf-test-item=363c185603560307010007050053500c035501025c5000510f515d54560000; path=/; HttpOnly
-            # X-Powered-By: SDWAF
             'SDWAF': [
                 'retval = re.search(r"SDWAF ", headers_get, re.I)',
                 'retval = re.search(r"sdwaf-test-item", headers_get, re.I)'
@@ -168,16 +144,14 @@ def getCdnWAF(rawdomain):
                 'retval = re.search("404.safedog.cn/images/safedogsite/head.png", page_get, re.I)'
             ],
             '安全宝': [
-                # 'retval = re.search(r"MISS", headers_get, re.I)',
                 'retval = re.search(r"/aqb_cc/error/", page_get, re.I)',
             ],
-            'YxLinkWAF(安恒?)': [
+            'YxLinkWAF(安恒)': [
                 'retval = re.search(r"<body><div class=\'page\'><div class=\'container\'><div class=\'main\'><div class=\'infobox\'><div class=\'infobox-shadow\'></div><div class=\'infobox-texts\'><div class=\'it-title\'>", page_get, re.I)'
             ],
             'WDCP': [
                 'retval = re.search(r"://www.wdlinux.cn/wdcp", page_get, re.I)'
             ],
-            # http://www.ciqinghui.com/data/
             'AMH主机面板': [
                 'retval = re.search(r"://amh.sh", page_get, re.I)'
             ],
@@ -189,7 +163,6 @@ def getCdnWAF(rawdomain):
             '乌云盾': [
                 'retval = re.search(r"wafcloud\.net", page_get,re.I)',
             ],
-            # https://www.54cn.net/
             '蓝盾': [
                 'retval = re.search(r"BLUEDON", page_get,re.I)',
             ],
@@ -363,7 +336,7 @@ def getCdnWAF(rawdomain):
             ],
         }
 
-        for k, v in waf_dic.items():  # python2 waf_dic.iteritems()
+        for k, v in waf_dic.items():
             for x in v:
                 try:
                     global retval
@@ -376,21 +349,10 @@ def getCdnWAF(rawdomain):
                 except Exception as e:
                     print(e)
     if wafcdnlist:
-        return wafcdnlist
-    return ['未检测到CDN或WAF']
+        result_report['cdn_waf'] = wafcdnlist
+        # print(result_report['cdn_waf'])
+        return result_report
 
 
 if __name__ == '__main__':
-    print(getCdnWAF('http://www.shaipu.com/'))
-    # print(get_cdn_waf('http://www.cdedu.cn/'))
-    # print(get_cdn_waf('http://www.xyaz.cn/'))
-    # print(get_cdn_waf('http://www.legaldaily.com.cn/'))
-    # print(get_cdn_waf('http://www.yundun.com/'))
-    # print(get_cdn_waf('http://www.sjzpfb120.com/'))
-    # print(get_cdn_waf('http://www.51g3.org/'))
-    """
-    返回
-    http://www.yundun.com/ 发现WAF : YUNDUN
-    http://www.sjzpfb120.com/ 发现WAF : D盾
-    http://www.51g3.org/ 发现WAF : safedog
-    """
+    print(verify('http://www.shaipu.com/', RESULT_REPORT))
