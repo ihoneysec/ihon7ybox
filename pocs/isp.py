@@ -5,6 +5,7 @@ from lib.core.threads import RESULT_REPORT
 from setting import HEADERS, RETRY_CNT, TIMEOUT, VERIFY
 import requests
 
+
 def getIpInfo(arg):
     ipInfoResult = ''
     try:
@@ -18,14 +19,18 @@ def getIpInfo(arg):
             if jsondata['data']['region'] and jsondata['data']['region'] != 'XX':
                 ipInfoResult += jsondata['data']['region']
             if jsondata['data']['city'] and jsondata['data']['city'] != 'XX':
-                ipInfoResult += ' ' +jsondata['data']['city']
+                ipInfoResult += ' ' + jsondata['data']['city']
             if jsondata['data']['isp'] and jsondata['data']['isp'] != 'XX':
-                ipInfoResult += ' ' +jsondata['data']['isp']
+                ipInfoResult += ' ' + jsondata['data']['isp']
             arg.append(ipInfoResult)
         if arg:
             return arg
+        else:
+            return arg
     except Exception as e:
         print(e)
+        return arg
+
 
 def verify(arg, result_report, **kwargs):
     try:
@@ -33,7 +38,11 @@ def verify(arg, result_report, **kwargs):
         if result:
             dhostname, daliaslist, dipaddrlist = result
             if len(dipaddrlist) == 1:
-                ipInfo = getIpInfo(dipaddrlist)
+                ipPlus = getIpInfo(dipaddrlist)
+                if ipPlus is not None:
+                    ipInfo = ipPlus
+                else:
+                    ipInfo = dipaddrlist
             else:
                 ipInfo = dipaddrlist
             if len(daliaslist) >= 1:

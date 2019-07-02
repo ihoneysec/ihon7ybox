@@ -9,8 +9,8 @@ requests.packages.urllib3.disable_warnings()
 
 def get_all_info(rawdomain):
     """
-    功能: 返回解析IP、原始响应头、CDN/WAF、旁站信息
-    TODO: 改成多线程查询、增加CMS指纹识别、端口扫描
+    功能: 返回解析IP、原始响应头、CDN/WAF、旁站信息、多线程查询
+    TODO: 增加CMS指纹识别、端口扫描
     """
     RESULT_REPORT['rawdomain'] = rawdomain
     startTime = datetime.datetime.now()

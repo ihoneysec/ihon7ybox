@@ -50,13 +50,13 @@ def verify(arg, result_report, **kwargs):
             if pages > MAXPAGE:
                 pz_result['city'] = cityaddr[0]
                 pz_result['ipaddr'] = ipaddr[0]
-                pz_result['pz_number'] = '共有%s个旁站' % text[0]
+                pz_result['pz_number'] = '%s个旁站' % text[0]
                 pz_result['pz_domains'] = []
                 result_report['pz'] = pz_result
                 return result_report
             pz_result['city'] = cityaddr[0]
             pz_result['ipaddr'] = ipaddr[0]
-            pz_result['pz_number'] = '共有%s个旁站' % text[0]
+            pz_result['pz_number'] = '%s个旁站' % text[0]
             x2 = '/html/body/div[4]/div[3]/table/tbody/tr[*]/td[2]/a/text()'
             pz = html.xpath(x2)
             if pz:

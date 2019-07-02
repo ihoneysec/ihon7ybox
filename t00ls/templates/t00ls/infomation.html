@@ -39,8 +39,8 @@
             <th>Hostname</th>
             <th>Alias</th>
             <th>IP地址</th>
-            <th>旁站信息</th>
             <th>CDN/WAF</th>
+            <th>耗时</th>
         </tr>
         </thead>
         <tbody>
@@ -49,23 +49,21 @@
             <td>{{ result.parse_ip.dhostname }}</td>
             <td>
                 {% for alias in result.parse_ip.daliaslist %}
-                {{ alias }} <br>
+                {{ alias }}<br>
                 {% endfor %}
             </td>
             <td>
                 {% for ipaddr in result.parse_ip.dipaddrlist %}
-                {{ ipaddr }} <br>
+                {{ ipaddr }}<br>
                 {% endfor %}
-            </td>
-            <td>
-                {{ result.pz.ipaddr }} <br>
-                {{ result.pz.city }} <br>
-                {{ result.pz.pz_number }} <br>
             </td>
             <td>
                 {% for cdnwaf in result.cdn_waf %}
-                {{ cdnwaf }} <br>
+                {{ cdnwaf }}<br>
                 {% endfor %}
+            </td>
+            <td>
+                {{ result.total_seconds }}秒
             </td>
         </tr>
 
@@ -76,10 +74,15 @@
 
             <div class="layui-col-md6">
                 <div class="layui-card">
-                    <div class="layui-card-header">旁站列表</div>
+                    <div class="layui-card-header">
+                        旁站信息
+                    </div>
+                    <div class="layui-card-body">
+                        {{ result.pz.ipaddr }} - {{ result.pz.city }} - {{ result.pz.pz_number }}
+                    </div>
                     <div class="layui-card-body">
                         {% for pzname in result.pz.pz_domains %}
-                        {{ pzname }} <br>
+                        {{ pzname }}<br>
                         {% endfor %}
                     </div>
                 </div>
@@ -89,7 +92,7 @@
                     <div class="layui-card-header">原始响应头</div>
                     <div class="layui-card-body">
                         {% for line in result.raw_response %}
-                        {{ line }} <br>
+                        {{ line }}<br>
                         {% endfor %}
                     </div>
                 </div>

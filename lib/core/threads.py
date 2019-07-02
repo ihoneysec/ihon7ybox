@@ -21,17 +21,7 @@ PATHS_OUTPUT = os.path.join(PATHS_ROOT, "output")
 WORKER = queue.Queue()
 POCS = []
 global RESULT_REPORT
-RESULT_REPORT = {
-    'rawdomain': '',
-    'parse_ip': {'dhostname': '', 'daliaslist': ['None'], 'dipaddrlist': ['None']},  # 已完成
-    'cdn_waf': ['未检测到CDN或WAF'],
-    'raw_response': "源站响应头获取异常",
-    # 'pz': {'city': '',
-    #        'ipaddr': '',
-    #        'pz_number': '',
-    #        'pz_domains': []
-    #        }
-}
+RESULT_REPORT = {}
 
 CONF = {
     "url": [],
@@ -236,6 +226,21 @@ def end():
 
 
 def main(url):
+    RESULT_REPORT = {'rawdomain': '',
+                     'parse_ip': {
+                         'dhostname': '',
+                         'daliaslist': [],
+                         'dipaddrlist': []
+                     },
+                     'cdn_waf': ['未检测到CDN或WAF'],
+                     'raw_response': ['源站响应头获取异常'],
+                     'pz': {
+                         'city': '',
+                         'ipaddr': '',
+                         'pz_number': '',
+                         'pz_domains': []
+                     }
+                     }
     CONF["url"] = url
     init(CONF)
     start()

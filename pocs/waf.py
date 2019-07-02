@@ -351,7 +351,10 @@ def verify(rawdomain, result_report, **kwargs):
     if wafcdnlist:
         result_report['cdn_waf'] = wafcdnlist
         # print(result_report['cdn_waf'])
-        return result_report
+    else:
+        result_report['cdn_waf'] = ['未检测到CDN或WAF']
+    print(result_report['cdn_waf'])
+    return result_report
 
 
 if __name__ == '__main__':

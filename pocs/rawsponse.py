@@ -21,12 +21,14 @@ def verify(arg, result_report, **kwargs):
             if resultStr:
                 result_report['raw_response'] = resultStr
                 # print(result_report['raw_response'])
+            else:
+                result_report['raw_response'] = ['源站响应头获取异常']
             return result_report
         except Exception as e:
             print(e)
             try_cnt += 1
             if try_cnt >= RETRY_CNT:
-                return
+                return ['源站响应头获取异常']
 
 
 if __name__ == '__main__':
